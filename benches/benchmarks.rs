@@ -10,7 +10,9 @@ use swc_ecma_parser::{Parser as SwcParser, StringInput, Syntax, lexer::Lexer};
 
 use bench_demo::repeat_string;
 
-const PARSE_SOURCE: &str = include_str!("fixtures/parse_input.js");
+// Vendored from typescript@5.9.3/lib/typescript.js.
+const PARSE_SOURCE_FILENAME: &str = "typescript.js";
+const PARSE_SOURCE: &str = include_str!("fixtures/typescript.js");
 
 fn bench_repeat_string(c: &mut Criterion) {
     c.bench_function("repeat_string_short", |b| {
@@ -24,7 +26,7 @@ fn bench_repeat_string(c: &mut Criterion) {
 
 fn bench_parsers(c: &mut Criterion) {
     let source_type =
-        SourceType::from_path("parse_input.js").expect("fixture path should infer JavaScript");
+        SourceType::from_path(PARSE_SOURCE_FILENAME).expect("fixture path should infer JavaScript");
     let cm: Lrc<SourceMap> = Default::default();
     let mut group = c.benchmark_group("parse");
 
@@ -43,7 +45,7 @@ fn bench_parsers(c: &mut Criterion) {
     group.bench_function("swc", |b| {
         b.iter(|| {
             let fm = cm.new_source_file(
-                FileName::Custom("parse_input.js".into()).into(),
+                FileName::Custom(PARSE_SOURCE_FILENAME.into()).into(),
                 black_box(PARSE_SOURCE),
             );
             let lexer = Lexer::new(
