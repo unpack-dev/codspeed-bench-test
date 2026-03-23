@@ -33,3 +33,8 @@ jobs:
         with:
           mode: simulation
           run: cargo codspeed run
+      - name: Run the benchmarks
+        uses: CodSpeedHQ/action@v4
+        with:
+          mode: walltime
+          run: cargo codspeed run
