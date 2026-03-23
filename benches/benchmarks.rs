@@ -95,8 +95,7 @@ fn load_threejs_esm_fixtures() -> Vec<FixtureSource> {
     let fixture_root = Path::new(env!("CARGO_MANIFEST_DIR")).join(PathBuf::from(THREEJS_ESM_ROOT));
     let mut fixture_paths = Vec::new();
 
-    collect_fixture_paths(&fixture_root.join("src"), &mut fixture_paths);
-    collect_fixture_paths(&fixture_root.join("examples/jsm"), &mut fixture_paths);
+    collect_fixture_paths(&fixture_root, &mut fixture_paths);
 
     let mut fixtures = fixture_paths
         .into_iter()
