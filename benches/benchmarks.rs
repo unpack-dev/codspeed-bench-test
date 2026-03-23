@@ -168,7 +168,7 @@ fn bench_threejs_esm_rayon(c: &mut Criterion) {
     let fixtures = load_threejs_esm_fixtures();
     let mut group = c.benchmark_group("threejs_esm_rayon");
 
-    group.bench_function("oxc", |b| {
+    group.bench_function("oxc-rayon", |b| {
         b.iter(|| {
             let fixtures = black_box(fixtures.as_slice());
             black_box(
@@ -182,7 +182,7 @@ fn bench_threejs_esm_rayon(c: &mut Criterion) {
         });
     });
 
-    group.bench_function("swc", |b| {
+    group.bench_function("swc-rayon", |b| {
         b.iter(|| {
             let fixtures = black_box(fixtures.as_slice());
             black_box(
