@@ -41,3 +41,5 @@ jobs:
         with:
           mode: walltime
           run: cargo codspeed run
+        env:
+          BENCH_RAYON_THREADS: 1

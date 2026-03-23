@@ -171,17 +171,28 @@ fn bench_threejs_esm_rayon(c: &mut Criterion) {
     let fixtures = load_threejs_esm_fixtures();
     let mut group = c.benchmark_group("threejs_esm_rayon");
 
+    // Pre-build the thread pool before b.iter() to avoid lazy-init noise in the first sample.
+    // In CI walltime runs, BENCH_RAYON_THREADS=1 is set to ensure stable measurements.
+    let num_threads = std::env::var("BENCH_RAYON_THREADS")
+        .ok()
+        .and_then(|v| v.parse().ok())
+        .unwrap_or(0); // 0 = rayon default
+    let pool = rayon::ThreadPoolBuilder::new()
+        .num_threads(num_threads)
+        .build()
+        .unwrap();
+
     group.bench_function("oxc-rayon", |b| {
         b.iter(|| {
             let fixtures = black_box(fixtures.as_slice());
-            black_box(
+            black_box(pool.install(|| {
                 fixtures
                     .par_iter()
                     .map(|fixture| {
                         parse_oxc_source(&fixture.path, &fixture.source, fixture.source_type)
                     })
-                    .sum::<usize>(),
-            );
+                    .sum::<usize>()
+            }));
         });
     });
 
@@ -190,12 +201,12 @@ fn bench_threejs_esm_rayon(c: &mut Criterion) {
     group.bench_function("swc-rayon", |b| {
         b.iter(|| {
             let fixtures = black_box(fixtures.as_slice());
-            black_box(
+            black_box(pool.install(|| {
                 fixtures
                     .par_iter()
                     .map(|fixture| parse_swc_source(&fixture.path, &fixture.source))
-                    .sum::<usize>(),
-            );
+                    .sum::<usize>()
+            }));
         });
     });
 
