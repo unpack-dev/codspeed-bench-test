@@ -25,8 +25,11 @@ jobs:
           cache-target: release
           bins: cargo-codspeed
 
-      - name: Build the benchmark target(s)
-        run: cargo codspeed build
+      - name: Build the benchmark target(s) for simulation
+        run: cargo codspeed build -m simulation
+
+      - name: Build the benchmark target(s) for walltime
+        run: cargo codspeed build -m walltime
 
       - name: Run the benchmarks(simulation)
         uses: CodSpeedHQ/action@v4
