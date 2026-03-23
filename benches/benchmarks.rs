@@ -2,6 +2,7 @@ use std::{
     fs,
     hint::black_box,
     path::{Path, PathBuf},
+    time::Duration,
 };
 
 use codspeed_criterion_compat::{Criterion, criterion_group, criterion_main};
@@ -152,6 +153,8 @@ fn bench_parsers(c: &mut Criterion) {
         });
     });
 
+    // The SWC parse is slow enough that 100 samples need about 13 seconds anyway.
+    group.measurement_time(Duration::from_secs(20));
     group.bench_function("swc", |b| {
         b.iter(|| {
             black_box(parse_swc_source(
@@ -182,6 +185,8 @@ fn bench_threejs_esm_rayon(c: &mut Criterion) {
         });
     });
 
+    // The SWC parallel parse also settles at one iteration per sample with the default target.
+    group.measurement_time(Duration::from_secs(20));
     group.bench_function("swc-rayon", |b| {
         b.iter(|| {
             let fixtures = black_box(fixtures.as_slice());
