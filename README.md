@@ -1,6 +1,6 @@
 # bench-demo
 
-[![CodSpeed](https://img.shields.io/endpoint?url=https://codspeed.io/badge.json)](https://codspeed.io/hardfist/bench-demo?utm_source=badge)
+[![CodSpeed](https://img.shields.io/endpoint?url=https://codspeed.io/badge.json)](https://codspeed.io/unpack-dev/codspeed-bench-test?utm_source=badge)
 
 A small Rust benchmark playground with:
 
