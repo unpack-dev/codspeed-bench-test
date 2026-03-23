@@ -28,12 +28,12 @@ jobs:
       - name: Build the benchmark target(s)
         run: cargo codspeed build
 
-      - name: Run the benchmarks
+      - name: Run the benchmarks(simulation)
         uses: CodSpeedHQ/action@v4
         with:
           mode: simulation
           run: cargo codspeed run
-      - name: Run the benchmarks
+      - name: Run the benchmarks(walltime)
         uses: CodSpeedHQ/action@v4
         with:
           mode: walltime
