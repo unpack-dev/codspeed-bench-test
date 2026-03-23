@@ -169,6 +169,7 @@ fn bench_parsers(c: &mut Criterion) {
 
 fn bench_threejs_esm_rayon(c: &mut Criterion) {
     let fixtures = load_threejs_esm_fixtures();
+    eprintln!("threejs_esm_rayon fixture count: {}", fixtures.len());
     let mut group = c.benchmark_group("threejs_esm_rayon");
 
     // Pre-build the thread pool before b.iter() to avoid lazy-init noise in the first sample.
